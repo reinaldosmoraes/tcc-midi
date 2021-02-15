@@ -18,82 +18,21 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true">
 
-        <TextView
-            android:text="Send"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="30sp"/>
-
         <Spinner
+            android:id="@+id/outputDevicesSpinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/outputDevicesSpinner"/>
-
-        <TextView
-            android:text="Note Messages"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="16dp"/>
+            android:visibility="invisible" />
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <Button
-                android:text="Note On"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/keyDownBtn"
-                android:layout_weight="1"/>
-
-            <Button
-                android:text="Note Off"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/keyUpBtn"
-                android:layout_weight="1"/>
-        </LinearLayout>
-
-        <TextView
-            android:text="Mod Wheel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="16dp"/>
-
-        <SeekBar
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/controllerSeekBar"/>
-
-        <TextView
-            android:text="Pitch Bend"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="16dp"/>
-
-        <SeekBar
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/pitchBendSeekBar"/>
+            android:layout_height="wrap_content"/>
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <Button
-                android:text="Program Change"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/progChangeBtn"/>
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/progNumEdit"
-                android:layout_weight="1"/>
-        </LinearLayout>
+            android:layout_height="wrap_content"/>
 
         <TextView
             android:text="Receive"

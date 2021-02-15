@@ -30,9 +30,6 @@ import android.view.View;
 
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -48,10 +45,7 @@ import java.util.Date;
  * Application MainActivity handles UI and Midi device hotplug event from
  * native side.
  */
-public class MainActivity extends Activity
-    implements View.OnClickListener,
-               SeekBar.OnSeekBarChangeListener,
-               AdapterView.OnItemSelectedListener {
+public class MainActivity extends Activity implements AdapterView.OnItemSelectedListener {
 
     private static final String TAG = MainActivity.class.getName();;
 
@@ -63,11 +57,6 @@ public class MainActivity extends Activity
 
     // Send Widgets
     Spinner mOutputDevicesSpinner;
-
-    SeekBar mControllerSB;
-    SeekBar mPitchBendSB;
-
-    EditText mProgNumberEdit;
 
     // Receive Widgets
     Spinner mInputDevicesSpinner;
@@ -122,6 +111,10 @@ public class MainActivity extends Activity
         }
     }
 
+    private boolean isTapValid() {
+        return verifyTap(pattern.get((taps.size()-1) % pattern.size()), taps.get(taps.size()-1));
+    }
+
     private boolean isInTime(long currentInterval) {
         if (currentInterval == 0) { //first tap
             return true;
@@ -166,23 +159,8 @@ public class MainActivity extends Activity
         mOutputDevicesSpinner = (Spinner)findViewById(R.id.outputDevicesSpinner);
         mOutputDevicesSpinner.setOnItemSelectedListener(this);
 
-        ((Button)findViewById(R.id.keyDownBtn)).setOnClickListener(this);
-        ((Button)findViewById(R.id.keyUpBtn)).setOnClickListener(this);
-        ((Button)findViewById(R.id.progChangeBtn)).setOnClickListener(this);
-
-        mControllerSB = (SeekBar)findViewById(R.id.controllerSeekBar);
-        mControllerSB.setMax(MidiSpec.MAX_CC_VALUE);
-        mControllerSB.setOnSeekBarChangeListener(this);
-
-        mPitchBendSB = (SeekBar)findViewById(R.id.pitchBendSeekBar);
-        mPitchBendSB.setMax(MidiSpec.MAX_PITCHBEND_VALUE);
-        mPitchBendSB.setProgress(MidiSpec.MID_PITCHBEND_VALUE);
-        mPitchBendSB.setOnSeekBarChangeListener(this);
-
         mInputDevicesSpinner = (Spinner)findViewById(R.id.inputDevicesSpinner);
         mInputDevicesSpinner.setOnItemSelectedListener(this);
-
-        mProgNumberEdit = (EditText)findViewById(R.id.progNumEdit);
 
         mReceiveMessageTx = (TextView)findViewById(R.id.receiveMessageTx);
         outputMessage = findViewById(R.id.outputMessage);
@@ -256,74 +234,18 @@ public class MainActivity extends Activity
                 Tap tap = new Tap(hand, message[2], new Date());
                 Log.d("MIDI_DEBUG", tap.toString());
                 insertTapOnListWithInterval(tap);
-                if (verifyTap(pattern.get((taps.size()-1) % pattern.size()), taps.get(taps.size()-1))) { //TODO: mudar nome para isTapValid
-                    outputMessage.setText("Left hand tap");
+
+                if (isTapValid()) {
+                    outputMessage.setText(hand.toString() + "Valid Tap");
                 } else {
-                    outputMessage.setText("Right hand tap");
+                    outputMessage.setText(hand.toString() + "Invalid Tap");
                 }
                 break;
 
             // Potentially handle other messages here.
         }
 
-
     }
-
-    //
-    // View.OnClickListener overriden methods
-    //
-    @Override
-    public void onClick(View view) {
-        byte[] keys = {60, 64, 67};         // C Major chord
-        byte[] velocities = {60, 60, 60};   // Middling velocity
-        byte channel = 0;    // send on channel 0
-        switch (view.getId()) {
-            case R.id.keyDownBtn:
-                // Simulate a key-down
-                mAppMidiManager.sendNoteOn(channel, keys, velocities) ;
-                break;
-
-            case R.id.keyUpBtn:
-                // Simulate a key-up (converse of key-down above).
-                mAppMidiManager.sendNoteOff(channel, keys, velocities) ;
-                break;
-
-            case R.id.progChangeBtn: {
-                // Send a MIDI program change message
-                try {
-                    String progNumStr = mProgNumberEdit.getText().toString();
-                    int progNum = Integer.parseInt(progNumStr);
-
-                    mAppMidiManager.sendProgramChange(channel, (byte)progNum);
-                } catch (NumberFormatException ex) {
-                    // Maybe let the user know
-                }
-            }
-                break;
-        }
-    }
-
-    //
-    // SeekBar.OnSeekBarChangeListener overriden messages
-    //
-    @Override
-    public void onProgressChanged(SeekBar seekBar, int pos, boolean fromUser) {
-        switch (seekBar.getId()) {
-        case R.id.controllerSeekBar:
-            mAppMidiManager.sendController((byte)0, MidiSpec.MIDICC_MODWHEEL, (byte)pos);
-            break;
-
-        case R.id.pitchBendSeekBar:
-            mAppMidiManager.sendPitchBend((byte)0, pos);
-            break;
-        }
-    }
-
-    @Override
-    public void onStartTrackingTouch(SeekBar seekBar) {}
-
-    @Override
-    public void onStopTrackingTouch(SeekBar seekBar) {}
 
     //
     // AdapterView.OnItemSelectedListener overriden methods
