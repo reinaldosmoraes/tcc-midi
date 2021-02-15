@@ -25,15 +25,16 @@ import android.media.midi.MidiManager;
 
 import android.os.Bundle;
 
-import android.util.Log;
 import android.view.View;
 
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import android.os.Handler;
+import android.widget.Toast;
 
 import com.example.nativemidi.models.Hand;
 import com.example.nativemidi.models.Tap;
@@ -63,7 +64,8 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
     TextView mReceiveMessageTx;
 
     //Teste do meu tcc
-    TextView outputMessage;
+    TextView mOutputMessage;
+    Button mClearTapsButton;
     ArrayList<Tap> pattern = createPattern(Hand.RIGHT, Hand.LEFT, Hand.RIGHT, Hand.RIGHT, Hand.LEFT, Hand.RIGHT, Hand.LEFT, Hand.LEFT);
     int defaultIntensity = 10;
     int bpm = 120;
@@ -155,7 +157,17 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
         mInputDevicesSpinner.setOnItemSelectedListener(this);
 
         mReceiveMessageTx = (TextView)findViewById(R.id.receiveMessageTx);
-        outputMessage = findViewById(R.id.outputMessage);
+        mOutputMessage = findViewById(R.id.outputMessage);
+        mClearTapsButton = findViewById(R.id.clearTapsButton);
+
+        mClearTapsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                taps.clear();
+                mOutputMessage.setText("");
+                Toast.makeText(getApplicationContext(), "Exercício reiniciado", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         MidiManager midiManager = (MidiManager) getSystemService(Context.MIDI_SERVICE);
         midiManager.registerDeviceCallback(new MidiDeviceCallback(), new Handler());
@@ -222,7 +234,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
                         "\nIntervalo: " + msToBpm(taps.get(taps.size() - 1).getInterval()) + " bpm" +
                         "\nToque correto: " + isTapValid();
 
-                outputMessage.setText(feedbackMessage);
+                mOutputMessage.setText(feedbackMessage);
 
                 break;
         }
