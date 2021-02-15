@@ -18,16 +18,11 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true">
 
-        <TextView
-            android:text="Send"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="30sp"/>
-
         <Spinner
+            android:id="@+id/outputDevicesSpinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/outputDevicesSpinner"/>
+            android:visibility="invisible" />
 
         <LinearLayout
             android:orientation="horizontal"
