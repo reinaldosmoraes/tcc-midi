@@ -30,9 +30,6 @@ import android.view.View;
 
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -48,9 +45,7 @@ import java.util.Date;
  * Application MainActivity handles UI and Midi device hotplug event from
  * native side.
  */
-public class MainActivity extends Activity
-    implements View.OnClickListener,
-               AdapterView.OnItemSelectedListener {
+public class MainActivity extends Activity implements AdapterView.OnItemSelectedListener {
 
     private static final String TAG = MainActivity.class.getName();;
 
@@ -250,19 +245,6 @@ public class MainActivity extends Activity
             // Potentially handle other messages here.
         }
 
-    }
-
-    //
-    // View.OnClickListener overriden methods
-    //
-    @Override
-    public void onClick(View view) {
-        byte[] keys = {60, 64, 67};         // C Major chord
-        byte[] velocities = {60, 60, 60};   // Middling velocity
-        byte channel = 0;    // send on channel 0
-        switch (view.getId()) {
-
-        }
     }
 
     //
