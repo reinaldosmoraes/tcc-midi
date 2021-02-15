@@ -18,6 +18,7 @@
 package com.example.nativemidi;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 
 import android.media.midi.MidiDeviceInfo;
@@ -30,6 +31,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -63,13 +66,19 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
     Spinner mInputDevicesSpinner;
     TextView mReceiveMessageTx;
 
-    //Teste do meu tcc
+    // Metronome
+    ImageView mMetronomeImageView;
+    TextView mMetronomeText;
+    int bpm = 120;
+
+    // Feedback
     TextView mOutputMessage;
     Button mClearTapsButton;
+
+    // Model base
+    ArrayList<Tap> taps = new ArrayList();
     ArrayList<Tap> pattern = createPattern(Hand.RIGHT, Hand.LEFT, Hand.RIGHT, Hand.RIGHT, Hand.LEFT, Hand.RIGHT, Hand.LEFT, Hand.LEFT);
     int defaultIntensity = 10;
-    int bpm = 120;
-    ArrayList<Tap> taps = new ArrayList();
 
     private ArrayList<Tap> createPattern(Hand... hands) {
         ArrayList<Tap> pattern = new ArrayList();
@@ -137,19 +146,46 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
         AppMidiManager.loadNativeAPI();
     }
 
+    public void showBpmPickerDialog() {
+        final Dialog bpmPickerDialog = new Dialog(MainActivity.this);
+        bpmPickerDialog.setTitle("NumberPicker");
+        bpmPickerDialog.setContentView(R.layout.bpm_picker_dialog);
+
+        Button okButton = (Button) bpmPickerDialog.findViewById(R.id.ok_button_bpm_picker_id);
+        Button cancelButton = (Button) bpmPickerDialog.findViewById(R.id.cancel_button_bpm_picker_id);
+
+        final NumberPicker bpmNumberPicker = (NumberPicker) bpmPickerDialog.findViewById(R.id.bpm_number_picker_id);
+        bpmNumberPicker.setMaxValue(200);
+        bpmNumberPicker.setMinValue(60);
+        bpmNumberPicker.setWrapSelectorWheel(false);
+        bpmNumberPicker.setValue(bpm);
+
+        okButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bpm = bpmNumberPicker.getValue();
+                mMetronomeText.setText(String.valueOf(bpmNumberPicker.getValue()));
+                bpmPickerDialog.dismiss();
+            }
+        });
+
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bpmPickerDialog.dismiss();
+            }
+        });
+
+        bpmPickerDialog.show();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //
-        // Init JNI for data receive callback
-        //
         initNative();
 
-        //
-        // Setup UI
-        //
         mOutputDevicesSpinner = (Spinner)findViewById(R.id.outputDevicesSpinner);
         mOutputDevicesSpinner.setOnItemSelectedListener(this);
 
@@ -166,6 +202,15 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
                 taps.clear();
                 mOutputMessage.setText("");
                 Toast.makeText(getApplicationContext(), "Exercício reiniciado", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        mMetronomeImageView = findViewById(R.id.metronomeImageView);
+        mMetronomeText = findViewById(R.id.metronomeTextView);
+        mMetronomeImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showBpmPickerDialog();
             }
         });
 

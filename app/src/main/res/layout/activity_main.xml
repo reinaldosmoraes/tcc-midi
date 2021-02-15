@@ -48,7 +48,7 @@
         android:text="Messages"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inputDevicesSpinner" />
+        app:layout_constraintTop_toBottomOf="@+id/metronomeImageView" />
 
     <TextView
         android:id="@+id/receiveMessageTx"
@@ -74,5 +74,25 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/metronomeImageView"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/ic_metronome"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/inputDevicesSpinner" />
+
+    <TextView
+        android:id="@+id/metronomeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="120"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/metronomeImageView"
+        app:layout_constraintStart_toEndOf="@+id/metronomeImageView"
+        app:layout_constraintTop_toTopOf="@+id/metronomeImageView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
