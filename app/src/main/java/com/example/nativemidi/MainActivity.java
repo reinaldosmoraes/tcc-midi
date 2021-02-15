@@ -50,7 +50,6 @@ import java.util.Date;
  */
 public class MainActivity extends Activity
     implements View.OnClickListener,
-               SeekBar.OnSeekBarChangeListener,
                AdapterView.OnItemSelectedListener {
 
     private static final String TAG = MainActivity.class.getName();;
@@ -251,7 +250,6 @@ public class MainActivity extends Activity
             // Potentially handle other messages here.
         }
 
-
     }
 
     //
@@ -266,24 +264,6 @@ public class MainActivity extends Activity
 
         }
     }
-
-    //
-    // SeekBar.OnSeekBarChangeListener overriden messages
-    //
-    @Override
-    public void onProgressChanged(SeekBar seekBar, int pos, boolean fromUser) {
-        switch (seekBar.getId()) {
-
-
-
-        }
-    }
-
-    @Override
-    public void onStartTrackingTouch(SeekBar seekBar) {}
-
-    @Override
-    public void onStopTrackingTouch(SeekBar seekBar) {}
 
     //
     // AdapterView.OnItemSelectedListener overriden methods
