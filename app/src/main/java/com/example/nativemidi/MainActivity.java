@@ -80,7 +80,6 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
     }
 
     private void insertTapOnListWithInterval(Tap tap) {
-        Log.d("MIDI_DEBUG", "insertTapOnListWithInterval_method");
         Tap currentTap;
 
         if (taps.isEmpty()) {
@@ -92,21 +91,16 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
             currentTap.setInterval(interval);
         }
         taps.add(currentTap);
-        Log.d("MIDI_DEBUG", "TAPS");
-        Log.d("MIDI_DEBUG", taps.toString());
     }
 
     private boolean verifyTap(Tap correctTap, Tap currentTap) {
-        Log.d("MIDI_DEBUG", "VERIFY_TAP_METHOD");
         if(correctTap.getHand() == currentTap.getHand() && isInTime(currentTap.getInterval())){
 //            icCorrectImageView.setVisibility(View.VISIBLE);
 //            icIncorrectImageView.setVisibility(View.INVISIBLE);
-            Log.d("MIDI_DEBUG", "VERIFY_TAP_METHOD_IS_VALID");
             return true;
         } else {
 //            icCorrectImageView.setVisibility(View.INVISIBLE);
 //            icIncorrectImageView.setVisibility(View.VISIBLE);
-            Log.d("MIDI_DEBUG", "VERIFY_TAP_IS_INVALID");
             return false;
         }
     }
@@ -130,13 +124,11 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
         return beatsPerMilliseconds;
     }
 
-
-
-
-
-
-
-
+    private int msToBpm (long ms) {
+        if (ms == 0) { return 0; }
+        int beatsPerMinutes = 60000 / (int)ms;
+        return beatsPerMinutes;
+    }
 
     // Force to load the native library
     static {
@@ -214,7 +206,6 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
     private void showReceivedMessage(byte[] message) {
         switch ((message[0] & 0xF0) >> 4) {
             case MidiSpec.MIDICODE_NOTEON:
-                Log.d("MIDI_DEBUG", "NOTE_OFF");
                 mReceiveMessageTx.setText(
                         "NOTE_ON [ch:" + (message[0] & 0x0F) +
                                 " key:" + message[1] +
@@ -222,27 +213,18 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
                 break;
 
             case MidiSpec.MIDICODE_NOTEOFF:
-                mReceiveMessageTx.setText(
-                        "NOTE_OFF [ch:" + (message[0] & 0x0F) +
-                                " key:" + message[1] +
-                                " vel:" + message[2] + "]");
-
-
-                Log.d("MIDI_DEBUG", "NOTE_OFF");
-
                 Hand hand = message[1] == 48 ? Hand.LEFT : Hand.RIGHT;
                 Tap tap = new Tap(hand, message[2], new Date());
-                Log.d("MIDI_DEBUG", tap.toString());
                 insertTapOnListWithInterval(tap);
 
-                if (isTapValid()) {
-                    outputMessage.setText(hand.toString() + "Valid Tap");
-                } else {
-                    outputMessage.setText(hand.toString() + "Invalid Tap");
-                }
-                break;
+                String feedbackMessage = "Lado: " + hand.toString() +
+                        "\nIntensidade: " + message[2] +
+                        "\nIntervalo: " + msToBpm(taps.get(taps.size() - 1).getInterval()) + " bpm" +
+                        "\nToque correto: " + isTapValid();
 
-            // Potentially handle other messages here.
+                outputMessage.setText(feedbackMessage);
+
+                break;
         }
 
     }
