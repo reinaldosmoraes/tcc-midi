@@ -75,10 +75,17 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
     TextView mOutputMessage;
     Button mClearTapsButton;
 
+    // Expected Pattern
+    ImageView mExpectedPatternImageView;
+    TextView mExpectedPatternText;
+
     // Model base
     ArrayList<Tap> taps = new ArrayList();
     ArrayList<Tap> pattern = createPattern(Hand.RIGHT, Hand.LEFT, Hand.RIGHT, Hand.RIGHT, Hand.LEFT, Hand.RIGHT, Hand.LEFT, Hand.LEFT);
     int defaultIntensity = 10;
+
+    // Set pattern dialog
+    TextView mHandPatternDialogText;
 
     private ArrayList<Tap> createPattern(Hand... hands) {
         ArrayList<Tap> pattern = new ArrayList();
@@ -179,6 +186,62 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
         bpmPickerDialog.show();
     }
 
+    public void showSetHandPatternDialog() {
+        final Dialog setHandPatternDialog = new Dialog(MainActivity.this);
+        setHandPatternDialog.setTitle("SetHandPatternDialog");
+        setHandPatternDialog.setContentView(R.layout.set_hand_pattern_dialog);
+
+        final ArrayList<Hand> newPattern = new ArrayList<>();
+        Button rightHandButton = setHandPatternDialog.findViewById(R.id.right_hand_button_id);
+        Button leftHandButton = setHandPatternDialog.findViewById(R.id.left_hand_button_id);
+        mHandPatternDialogText = setHandPatternDialog.findViewById(R.id.new_expected_pattern_id);
+
+        rightHandButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mHandPatternDialogText.setText(mHandPatternDialogText.getText() + "R ");
+                newPattern.add(Hand.RIGHT);
+
+                if (newPattern.size() >= 8){
+                    pattern = createPattern(newPattern.get(0), newPattern.get(1), newPattern.get(2), newPattern.get(3), newPattern.get(4), newPattern.get(5), newPattern.get(6), newPattern.get(7));
+                    mExpectedPatternText.setText(getHandPatternText(pattern));
+                    setHandPatternDialog.dismiss();
+                    taps.clear();
+                }
+            }
+        });
+
+        leftHandButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mHandPatternDialogText.setText(mHandPatternDialogText.getText() + "L ");
+                newPattern.add(Hand.LEFT);
+
+                if (newPattern.size() >= 8){
+                    pattern = createPattern(newPattern.get(0), newPattern.get(1), newPattern.get(2), newPattern.get(3), newPattern.get(4), newPattern.get(5), newPattern.get(6), newPattern.get(7));
+                    mExpectedPatternText.setText(getHandPatternText(pattern));
+                    setHandPatternDialog.dismiss();
+                    taps.clear();
+                }
+            }
+        });
+
+        setHandPatternDialog.show();
+    }
+
+    private String getHandPatternText(ArrayList<Tap> taps) {
+        String pattern = "";
+        for (Tap tap : taps) {
+
+            if (tap.getHand() == Hand.RIGHT) {
+                pattern += "R      ";
+            } else {
+                pattern += "L      ";
+            }
+        }
+        return pattern;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -202,6 +265,15 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
                 taps.clear();
                 mOutputMessage.setText("");
                 Toast.makeText(getApplicationContext(), "Exercício reiniciado", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        mExpectedPatternText = findViewById(R.id.expectedPatternText);
+        mExpectedPatternImageView = findViewById(R.id.expectedPatternImageView);
+        mExpectedPatternImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showSetHandPatternDialog();
             }
         });
 
