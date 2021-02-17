@@ -18,6 +18,7 @@
 package com.example.nativemidi;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 
 import android.media.midi.MidiDeviceInfo;
@@ -25,15 +26,18 @@ import android.media.midi.MidiManager;
 
 import android.os.Bundle;
 
-import android.util.Log;
 import android.view.View;
 
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import android.os.Handler;
+import android.widget.Toast;
 
 import com.example.nativemidi.models.Hand;
 import com.example.nativemidi.models.Tap;
@@ -62,12 +66,19 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
     Spinner mInputDevicesSpinner;
     TextView mReceiveMessageTx;
 
-    //Teste do meu tcc
-    TextView outputMessage;
+    // Metronome
+    ImageView mMetronomeImageView;
+    TextView mMetronomeText;
+    int bpm = 120;
+
+    // Feedback
+    TextView mOutputMessage;
+    Button mClearTapsButton;
+
+    // Model base
+    ArrayList<Tap> taps = new ArrayList();
     ArrayList<Tap> pattern = createPattern(Hand.RIGHT, Hand.LEFT, Hand.RIGHT, Hand.RIGHT, Hand.LEFT, Hand.RIGHT, Hand.LEFT, Hand.LEFT);
     int defaultIntensity = 10;
-    int bpm = 120;
-    ArrayList<Tap> taps = new ArrayList();
 
     private ArrayList<Tap> createPattern(Hand... hands) {
         ArrayList<Tap> pattern = new ArrayList();
@@ -80,7 +91,6 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
     }
 
     private void insertTapOnListWithInterval(Tap tap) {
-        Log.d("MIDI_DEBUG", "insertTapOnListWithInterval_method");
         Tap currentTap;
 
         if (taps.isEmpty()) {
@@ -92,21 +102,16 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
             currentTap.setInterval(interval);
         }
         taps.add(currentTap);
-        Log.d("MIDI_DEBUG", "TAPS");
-        Log.d("MIDI_DEBUG", taps.toString());
     }
 
     private boolean verifyTap(Tap correctTap, Tap currentTap) {
-        Log.d("MIDI_DEBUG", "VERIFY_TAP_METHOD");
         if(correctTap.getHand() == currentTap.getHand() && isInTime(currentTap.getInterval())){
 //            icCorrectImageView.setVisibility(View.VISIBLE);
 //            icIncorrectImageView.setVisibility(View.INVISIBLE);
-            Log.d("MIDI_DEBUG", "VERIFY_TAP_METHOD_IS_VALID");
             return true;
         } else {
 //            icCorrectImageView.setVisibility(View.INVISIBLE);
 //            icIncorrectImageView.setVisibility(View.VISIBLE);
-            Log.d("MIDI_DEBUG", "VERIFY_TAP_IS_INVALID");
             return false;
         }
     }
@@ -130,17 +135,48 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
         return beatsPerMilliseconds;
     }
 
-
-
-
-
-
-
-
+    private int msToBpm (long ms) {
+        if (ms == 0) { return 0; }
+        int beatsPerMinutes = 60000 / (int)ms;
+        return beatsPerMinutes;
+    }
 
     // Force to load the native library
     static {
         AppMidiManager.loadNativeAPI();
+    }
+
+    public void showBpmPickerDialog() {
+        final Dialog bpmPickerDialog = new Dialog(MainActivity.this);
+        bpmPickerDialog.setTitle("NumberPicker");
+        bpmPickerDialog.setContentView(R.layout.bpm_picker_dialog);
+
+        Button okButton = (Button) bpmPickerDialog.findViewById(R.id.ok_button_bpm_picker_id);
+        Button cancelButton = (Button) bpmPickerDialog.findViewById(R.id.cancel_button_bpm_picker_id);
+
+        final NumberPicker bpmNumberPicker = (NumberPicker) bpmPickerDialog.findViewById(R.id.bpm_number_picker_id);
+        bpmNumberPicker.setMaxValue(200);
+        bpmNumberPicker.setMinValue(60);
+        bpmNumberPicker.setWrapSelectorWheel(false);
+        bpmNumberPicker.setValue(bpm);
+
+        okButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bpm = bpmNumberPicker.getValue();
+                mMetronomeText.setText(String.valueOf(bpmNumberPicker.getValue()));
+                bpmPickerDialog.dismiss();
+            }
+        });
+
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bpmPickerDialog.dismiss();
+            }
+        });
+
+        bpmPickerDialog.show();
     }
 
     @Override
@@ -148,14 +184,8 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //
-        // Init JNI for data receive callback
-        //
         initNative();
 
-        //
-        // Setup UI
-        //
         mOutputDevicesSpinner = (Spinner)findViewById(R.id.outputDevicesSpinner);
         mOutputDevicesSpinner.setOnItemSelectedListener(this);
 
@@ -163,7 +193,26 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
         mInputDevicesSpinner.setOnItemSelectedListener(this);
 
         mReceiveMessageTx = (TextView)findViewById(R.id.receiveMessageTx);
-        outputMessage = findViewById(R.id.outputMessage);
+        mOutputMessage = findViewById(R.id.outputMessage);
+        mClearTapsButton = findViewById(R.id.clearTapsButton);
+
+        mClearTapsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                taps.clear();
+                mOutputMessage.setText("");
+                Toast.makeText(getApplicationContext(), "Exercício reiniciado", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        mMetronomeImageView = findViewById(R.id.metronomeImageView);
+        mMetronomeText = findViewById(R.id.metronomeTextView);
+        mMetronomeImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showBpmPickerDialog();
+            }
+        });
 
         MidiManager midiManager = (MidiManager) getSystemService(Context.MIDI_SERVICE);
         midiManager.registerDeviceCallback(new MidiDeviceCallback(), new Handler());
@@ -214,7 +263,6 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
     private void showReceivedMessage(byte[] message) {
         switch ((message[0] & 0xF0) >> 4) {
             case MidiSpec.MIDICODE_NOTEON:
-                Log.d("MIDI_DEBUG", "NOTE_OFF");
                 mReceiveMessageTx.setText(
                         "NOTE_ON [ch:" + (message[0] & 0x0F) +
                                 " key:" + message[1] +
@@ -222,27 +270,18 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
                 break;
 
             case MidiSpec.MIDICODE_NOTEOFF:
-                mReceiveMessageTx.setText(
-                        "NOTE_OFF [ch:" + (message[0] & 0x0F) +
-                                " key:" + message[1] +
-                                " vel:" + message[2] + "]");
-
-
-                Log.d("MIDI_DEBUG", "NOTE_OFF");
-
                 Hand hand = message[1] == 48 ? Hand.LEFT : Hand.RIGHT;
                 Tap tap = new Tap(hand, message[2], new Date());
-                Log.d("MIDI_DEBUG", tap.toString());
                 insertTapOnListWithInterval(tap);
 
-                if (isTapValid()) {
-                    outputMessage.setText(hand.toString() + "Valid Tap");
-                } else {
-                    outputMessage.setText(hand.toString() + "Invalid Tap");
-                }
-                break;
+                String feedbackMessage = "Lado: " + hand.toString() +
+                        "\nIntensidade: " + message[2] +
+                        "\nIntervalo: " + msToBpm(taps.get(taps.size() - 1).getInterval()) + " bpm" +
+                        "\nToque correto: " + isTapValid();
 
-            // Potentially handle other messages here.
+                mOutputMessage.setText(feedbackMessage);
+
+                break;
         }
 
     }
