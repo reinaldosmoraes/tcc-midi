@@ -253,8 +253,12 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
         String pattern = "";
         for (Tap tap : taps) {
 
-            if (tap.getHand() == Hand.RIGHT) {
+            if (tap.getHand() == Hand.RIGHT && tap.isAccented()) {
+                pattern += "R'      ";
+            } else if (tap.getHand() == Hand.RIGHT && !tap.isAccented()) {
                 pattern += "R      ";
+            } else if (tap.getHand() == Hand.LEFT && tap.isAccented()) {
+                pattern += "L'      ";
             } else {
                 pattern += "L      ";
             }
@@ -299,6 +303,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
 
         mMetronomeImageView = findViewById(R.id.metronomeImageView);
         mMetronomeText = findViewById(R.id.metronomeTextView);
+        mExpectedPatternText.setText(getHandPatternText(pattern));
         mMetronomeImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
