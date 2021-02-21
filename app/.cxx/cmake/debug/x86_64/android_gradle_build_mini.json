@@ -1,8 +1,8 @@
 {
   "buildFiles": [
+    "/Users/reinaldo.moraes/Documents/tcc/tcc-app-android/app/src/main/cpp/CMakeLists.txt",
     "/Users/reinaldo.moraes/Library/Android/sdk/ndk/21.2.6472646/build/cmake/android.toolchain.cmake",
-    "/Users/reinaldo.moraes/Library/Android/sdk/ndk/21.2.6472646/build/cmake/platforms.cmake",
-    "/Users/reinaldo.moraes/Documents/tcc/tcc-app-android/app/src/main/cpp/CMakeLists.txt"
+    "/Users/reinaldo.moraes/Library/Android/sdk/ndk/21.2.6472646/build/cmake/platforms.cmake"
   ],
   "cleanCommands": [
     "/Users/reinaldo.moraes/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/reinaldo.moraes/Documents/tcc/tcc-app-android/app/.cxx/cmake/debug/x86_64\" clean"
