@@ -86,11 +86,15 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
     // Set pattern dialog
     TextView mHandPatternDialogText;
 
+    // Accented tap
+    int accentedTapTreshold = 20;
+
     private void insertTapOnListWithInterval(Tap tap) {
         Tap currentTap;
 
         if (taps.isEmpty()) {
             currentTap = tap;
+            currentTap.setInterval((long) 0);
         } else {
             Tap previousTap = taps.get(taps.size() - 1);
             currentTap = tap;
@@ -101,7 +105,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
     }
 
     private boolean verifyTap(Tap correctTap, Tap currentTap) {
-        if(correctTap.getHand() == currentTap.getHand() && isInTime(currentTap.getInterval())){
+        if(correctTap.getHand() == currentTap.getHand() && isInTime(currentTap.getInterval()) && isCorretAccent(correctTap, currentTap)){
 //            icCorrectImageView.setVisibility(View.VISIBLE);
 //            icIncorrectImageView.setVisibility(View.INVISIBLE);
             return true;
@@ -114,6 +118,14 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
 
     private boolean isTapValid() {
         return verifyTap(pattern.get((taps.size()-1) % pattern.size()), taps.get(taps.size()-1));
+    }
+
+    private boolean isCorretAccent(Tap correctTap, Tap currentTap) {
+        if(currentTap.getIntensity() >= accentedTapTreshold) {
+            currentTap.setAccented(true);
+        }
+
+        return correctTap.isAccented() == currentTap.isAccented();
     }
 
     private boolean isInTime(long currentInterval) {
