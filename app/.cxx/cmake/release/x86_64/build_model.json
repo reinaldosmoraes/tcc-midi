@@ -92,6 +92,7 @@
       "-DANDROID_STL\u003dc++_static"
     ],
     "buildTargetSet": [],
+    "implicitBuildTargetSet": [],
     "cFlagsList": [],
     "cmakeSettingsConfiguration": "android-gradle-plugin-predetermined-name",
     "cppFlagsList": [],

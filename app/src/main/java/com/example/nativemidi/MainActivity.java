@@ -75,26 +75,26 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
     TextView mOutputMessage;
     Button mClearTapsButton;
 
+    // Expected Pattern
+    ImageView mExpectedPatternImageView;
+    TextView mExpectedPatternText;
+
     // Model base
     ArrayList<Tap> taps = new ArrayList();
-    ArrayList<Tap> pattern = createPattern(Hand.RIGHT, Hand.LEFT, Hand.RIGHT, Hand.RIGHT, Hand.LEFT, Hand.RIGHT, Hand.LEFT, Hand.LEFT);
-    int defaultIntensity = 10;
+    ArrayList<Tap> pattern = Tap.getParadiddlePattern();
 
-    private ArrayList<Tap> createPattern(Hand... hands) {
-        ArrayList<Tap> pattern = new ArrayList();
+    // Set pattern dialog
+    TextView mHandPatternDialogText;
 
-        for (Hand hand : hands) {
-            Tap tap = new Tap(hand, defaultIntensity, 500);
-            pattern.add(tap);
-        }
-        return pattern;
-    }
+    // Accented tap
+    int accentedTapTreshold = 20;
 
     private void insertTapOnListWithInterval(Tap tap) {
         Tap currentTap;
 
         if (taps.isEmpty()) {
             currentTap = tap;
+            currentTap.setInterval((long) 0);
         } else {
             Tap previousTap = taps.get(taps.size() - 1);
             currentTap = tap;
@@ -105,7 +105,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
     }
 
     private boolean verifyTap(Tap correctTap, Tap currentTap) {
-        if(correctTap.getHand() == currentTap.getHand() && isInTime(currentTap.getInterval())){
+        if(correctTap.getHand() == currentTap.getHand() && isInTime(currentTap.getInterval()) && isCorretAccent(correctTap, currentTap)){
 //            icCorrectImageView.setVisibility(View.VISIBLE);
 //            icIncorrectImageView.setVisibility(View.INVISIBLE);
             return true;
@@ -118,6 +118,14 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
 
     private boolean isTapValid() {
         return verifyTap(pattern.get((taps.size()-1) % pattern.size()), taps.get(taps.size()-1));
+    }
+
+    private boolean isCorretAccent(Tap correctTap, Tap currentTap) {
+        if(currentTap.getIntensity() >= accentedTapTreshold) {
+            currentTap.setAccented(true);
+        }
+
+        return correctTap.isAccented() == currentTap.isAccented();
     }
 
     private boolean isInTime(long currentInterval) {
@@ -179,6 +187,97 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
         bpmPickerDialog.show();
     }
 
+    public void showSetHandPatternDialog() {
+        final Dialog setHandPatternDialog = new Dialog(MainActivity.this);
+        setHandPatternDialog.setTitle("SetHandPatternDialog");
+        setHandPatternDialog.setContentView(R.layout.set_hand_pattern_dialog);
+
+        final ArrayList<Tap> newPattern = new ArrayList<>();
+        Button rightHandButton = setHandPatternDialog.findViewById(R.id.right_hand_button_id);
+        Button leftHandButton = setHandPatternDialog.findViewById(R.id.left_hand_button_id);
+        Button accentedRightHandButton = setHandPatternDialog.findViewById(R.id.accented_right_hand_button_id);
+        Button accentedLeftHandButton = setHandPatternDialog.findViewById(R.id.accented_left_hand_button_id);
+
+        mHandPatternDialogText = setHandPatternDialog.findViewById(R.id.new_expected_pattern_id);
+
+        rightHandButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mHandPatternDialogText.setText(mHandPatternDialogText.getText() + "R ");
+                newPattern.add(new Tap(Hand.RIGHT, null, null, null, false));
+
+                if(checkIfInputIsFinished(newPattern)) {
+                    setHandPatternDialog.dismiss();
+                }
+            }
+        });
+
+        leftHandButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mHandPatternDialogText.setText(mHandPatternDialogText.getText() + "L ");
+                newPattern.add(new Tap(Hand.LEFT, null, null, null, false));
+
+                if(checkIfInputIsFinished(newPattern)) {
+                    setHandPatternDialog.dismiss();
+                }
+            }
+        });
+
+        accentedRightHandButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mHandPatternDialogText.setText(mHandPatternDialogText.getText() + "R' ");
+                newPattern.add(new Tap(Hand.RIGHT, null, null, null, true));
+
+                if(checkIfInputIsFinished(newPattern)) {
+                    setHandPatternDialog.dismiss();
+                }
+            }
+        });
+
+        accentedLeftHandButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mHandPatternDialogText.setText(mHandPatternDialogText.getText() + "L ");
+                newPattern.add(new Tap(Hand.LEFT, null, null, null, true));
+
+                if(checkIfInputIsFinished(newPattern)) {
+                    setHandPatternDialog.dismiss();
+                }
+            }
+        });
+
+        setHandPatternDialog.show();
+    }
+
+    private boolean checkIfInputIsFinished(ArrayList<Tap> newPattern) {
+        if (newPattern.size() >= 8) {
+            pattern = newPattern;
+            mExpectedPatternText.setText(getHandPatternText(pattern));
+            taps.clear();
+            return true;
+        }
+        return false;
+    }
+
+    private String getHandPatternText(ArrayList<Tap> taps) {
+        String pattern = "";
+        for (Tap tap : taps) {
+
+            if (tap.getHand() == Hand.RIGHT && tap.isAccented()) {
+                pattern += "R'      ";
+            } else if (tap.getHand() == Hand.RIGHT && !tap.isAccented()) {
+                pattern += "R      ";
+            } else if (tap.getHand() == Hand.LEFT && tap.isAccented()) {
+                pattern += "L'      ";
+            } else {
+                pattern += "L      ";
+            }
+        }
+        return pattern;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -205,8 +304,18 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
             }
         });
 
+        mExpectedPatternText = findViewById(R.id.expectedPatternText);
+        mExpectedPatternImageView = findViewById(R.id.expectedPatternImageView);
+        mExpectedPatternImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showSetHandPatternDialog();
+            }
+        });
+
         mMetronomeImageView = findViewById(R.id.metronomeImageView);
         mMetronomeText = findViewById(R.id.metronomeTextView);
+        mExpectedPatternText.setText(getHandPatternText(pattern));
         mMetronomeImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -271,7 +380,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
 
             case MidiSpec.MIDICODE_NOTEOFF:
                 Hand hand = message[1] == 48 ? Hand.LEFT : Hand.RIGHT;
-                Tap tap = new Tap(hand, message[2], new Date());
+                Tap tap = new Tap(hand, (int) message[2], new Date(), null, null);
                 insertTapOnListWithInterval(tap);
 
                 String feedbackMessage = "Lado: " + hand.toString() +

@@ -1,4 +1,4 @@
 # ninja log v5
-1	65	1613252147	CMakeFiles/native_midi.dir/MainActivity.cpp.o	452cbc555809b298
-1	453	1613252148	CMakeFiles/native_midi.dir/AppMidiManager.cpp.o	4361ccc5fe93f90c
-453	497	1613252148	/Users/reinaldo.moraes/Documents/tcc/tcc-app-android/app/build/intermediates/cmake/debug/obj/arm64-v8a/libnative_midi.so	bf22302c97a1e881
+1	192	1613932419	CMakeFiles/native_midi.dir/MainActivity.cpp.o	452cbc555809b298
+0	737	1613932419	CMakeFiles/native_midi.dir/AppMidiManager.cpp.o	4361ccc5fe93f90c
+738	783	1613932420	/Users/reinaldo.moraes/Documents/tcc/tcc-app-android/app/build/intermediates/cmake/debug/obj/arm64-v8a/libnative_midi.so	bf22302c97a1e881

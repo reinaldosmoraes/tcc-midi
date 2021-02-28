@@ -79,10 +79,10 @@
         android:id="@+id/metronomeImageView"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:src="@drawable/ic_metronome"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inputDevicesSpinner" />
+        app:layout_constraintTop_toBottomOf="@+id/expectedPatternText" />
 
     <TextView
         android:id="@+id/metronomeTextView"
@@ -94,5 +94,30 @@
         app:layout_constraintBottom_toBottomOf="@+id/metronomeImageView"
         app:layout_constraintStart_toEndOf="@+id/metronomeImageView"
         app:layout_constraintTop_toTopOf="@+id/metronomeImageView" />
+
+    <ImageView
+        android:id="@+id/expectedPatternImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/sixteenth_note_pattern"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/inputDevicesSpinner" />
+
+    <TextView
+        android:id="@+id/expectedPatternText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:text="R        L        R        R        L        R        L        L"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/expectedPatternImageView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
