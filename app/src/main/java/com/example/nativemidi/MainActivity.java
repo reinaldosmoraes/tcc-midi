@@ -50,6 +50,7 @@ import androidx.appcompat.widget.Toolbar;
 import com.example.nativemidi.models.Hand;
 import com.example.nativemidi.models.Tap;
 import com.example.nativemidi.settings.SettingsActivity;
+import com.example.nativemidi.utils.SharedPreferecesManager;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -130,7 +131,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     private boolean isCorretAccent(Tap correctTap, Tap currentTap) {
-        if(currentTap.getIntensity() >= accentedTapTreshold) {
+        if(currentTap.getIntensity() >= SharedPreferecesManager.Companion.getAccentTreshold(getApplicationContext())) {
             currentTap.setAccented(true);
         }
 

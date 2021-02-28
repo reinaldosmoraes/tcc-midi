@@ -7,6 +7,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.nativemidi.R;
+import com.example.nativemidi.utils.SharedPreferecesManager;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -21,7 +22,7 @@ public class SettingsActivity extends AppCompatActivity {
         accentTresholdSeekBar = findViewById(R.id.accentTresholdSeekBar);
         tresholdSelectedValue = findViewById(R.id.tresholdSelectedValue);
 
-        tresholdSelectedValue.setText("Treshold: " + 20 + " / " + accentTresholdSeekBar.getMax());
+        configureAccentTreshold();
 
         accentTresholdSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -36,9 +37,14 @@ public class SettingsActivity extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
+                SharedPreferecesManager.Companion.setAccentTreshold(getApplicationContext(), seekBar.getProgress());
             }
         });
     }
 
+    private void configureAccentTreshold() {
+        int treshold =  SharedPreferecesManager.Companion.getAccentTreshold(getApplicationContext());
+        tresholdSelectedValue.setText("Treshold: " + treshold + " / " + accentTresholdSeekBar.getMax());
+        accentTresholdSeekBar.setProgress(treshold);
+    }
 }
