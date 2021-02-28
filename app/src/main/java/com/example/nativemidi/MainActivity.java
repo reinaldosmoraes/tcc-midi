@@ -22,6 +22,7 @@ import android.app.Dialog;
 import android.content.Context;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.media.midi.MidiDeviceInfo;
 import android.media.midi.MidiManager;
 
@@ -102,6 +103,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     TextView metronomeCurrentTempoTextView;
     //runs without a timer by reposting this handler at the end of the runnable
     Handler timerHandler = new Handler();
+    MediaPlayer player;
     Runnable timerRunnable = new Runnable() {
 
         @Override
@@ -119,6 +121,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 currentTempo = 1;
             }
             metronomeCurrentTempoTextView.setText(String.valueOf(currentTempo));
+
+            playMetronomeSound();
 
             timerHandler.postDelayed(this, bpmToMs(bpm));
         }
@@ -380,6 +384,15 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         // Initial Scan
         ScanMidiDevices();
+
+        // Media player
+        player = MediaPlayer.create(this, R.raw.tap);
+        
+    }
+
+    private void playMetronomeSound() {
+        //TODO: alternar entre som quando for tempo 1
+        player.start();
     }
 
     @Override
