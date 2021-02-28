@@ -96,8 +96,33 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     // Set pattern dialog
     TextView mHandPatternDialogText;
 
-    // Accented tap
-    int accentedTapTreshold = 20;
+    // Metronome
+    long startTime = 0;
+    int currentTempo = 0;
+    TextView metronomeCurrentTempoTextView;
+    //runs without a timer by reposting this handler at the end of the runnable
+    Handler timerHandler = new Handler();
+    Runnable timerRunnable = new Runnable() {
+
+        @Override
+        public void run() {
+            long millis = System.currentTimeMillis() - startTime;
+            int seconds = (int) (millis / 1000);
+            int minutes = seconds / 60;
+            seconds = seconds % 60;
+
+            Log.d("METRONOME", String.format("%d:%02d", minutes, seconds));
+
+            if(currentTempo < 4) {
+                currentTempo++;
+            } else {
+                currentTempo = 1;
+            }
+            metronomeCurrentTempoTextView.setText(String.valueOf(currentTempo));
+
+            timerHandler.postDelayed(this, 500);
+        }
+    };
 
     private void insertTapOnListWithInterval(Tap tap) {
         Tap currentTap;
@@ -305,12 +330,23 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         mOutputMessage = findViewById(R.id.outputMessage);
         mClearTapsButton = findViewById(R.id.clearTapsButton);
 
+        metronomeCurrentTempoTextView = findViewById(R.id.metrnomeCurrentTempoTextView);
+        mClearTapsButton.setText("Iniciar");
         mClearTapsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                taps.clear();
-                mOutputMessage.setText("");
-                Toast.makeText(getApplicationContext(), "Exercício reiniciado", Toast.LENGTH_SHORT).show();
+                if (mClearTapsButton.getText().equals("Pausar")) {
+                    taps.clear();
+                    mOutputMessage.setText("");
+                    timerHandler.removeCallbacks(timerRunnable);
+                    mClearTapsButton.setText("Iniciar");
+                    metronomeCurrentTempoTextView.setVisibility(View.INVISIBLE);
+                } else {
+                    startTime = System.currentTimeMillis();
+                    timerHandler.postDelayed(timerRunnable, 0);
+                    mClearTapsButton.setText("Pausar");
+                    metronomeCurrentTempoTextView.setVisibility(View.VISIBLE);
+                }
             }
         });
 
@@ -343,6 +379,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         // Initial Scan
         ScanMidiDevices();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        timerHandler.removeCallbacks(timerRunnable);
+        mClearTapsButton.setText("start");
     }
 
     /**
