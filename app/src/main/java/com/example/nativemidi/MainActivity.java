@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             }
             metronomeCurrentTempoTextView.setText(String.valueOf(currentTempo));
 
-            timerHandler.postDelayed(this, 500);
+            timerHandler.postDelayed(this, bpmToMs(bpm));
         }
     };
 
@@ -341,6 +341,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     timerHandler.removeCallbacks(timerRunnable);
                     mClearTapsButton.setText("Iniciar");
                     metronomeCurrentTempoTextView.setVisibility(View.INVISIBLE);
+                    currentTempo = 1;
                 } else {
                     startTime = System.currentTimeMillis();
                     timerHandler.postDelayed(timerRunnable, 0);
