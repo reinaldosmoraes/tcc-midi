@@ -21,11 +21,15 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 
+import android.content.Intent;
 import android.media.midi.MidiDeviceInfo;
 import android.media.midi.MidiManager;
 
 import android.os.Bundle;
 
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import android.widget.AdapterView;
@@ -39,8 +43,14 @@ import android.widget.TextView;
 import android.os.Handler;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import com.example.nativemidi.models.Hand;
 import com.example.nativemidi.models.Tap;
+import com.example.nativemidi.settings.SettingsActivity;
+import com.example.nativemidi.utils.SharedPreferecesManager;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -49,7 +59,7 @@ import java.util.Date;
  * Application MainActivity handles UI and Midi device hotplug event from
  * native side.
  */
-public class MainActivity extends Activity implements AdapterView.OnItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private static final String TAG = MainActivity.class.getName();;
 
@@ -121,7 +131,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
     }
 
     private boolean isCorretAccent(Tap correctTap, Tap currentTap) {
-        if(currentTap.getIntensity() >= accentedTapTreshold) {
+        if(currentTap.getIntensity() >= SharedPreferecesManager.Companion.getAccentTreshold(getApplicationContext())) {
             currentTap.setAccented(true);
         }
 
@@ -282,7 +292,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        configureToolbar();
         initNative();
 
         mOutputDevicesSpinner = (Spinner)findViewById(R.id.outputDevicesSpinner);
@@ -484,5 +494,29 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
                 showReceivedMessage(message);
             }
         });
+    }
+
+    /* Toolbar */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.practice_section_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.settings:
+                Intent intent = new Intent(this, SettingsActivity.class);
+                startActivity(intent);
+                return true;
+
+            default:return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void configureToolbar() {
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(myToolbar);
     }
 }
