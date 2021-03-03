@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             }
             metronomeCurrentTempoTextView.setText(String.valueOf(currentTempo));
 
-            playMetronomeSound();
+            playMetronomeSound(currentTempo == 1);
 
             timerHandler.postDelayed(this, bpmToMs(bpm));
         }
@@ -384,14 +384,15 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         // Initial Scan
         ScanMidiDevices();
-
-        // Media player
-        player = MediaPlayer.create(this, R.raw.tap);
         
     }
 
-    private void playMetronomeSound() {
-        //TODO: alternar entre som quando for tempo 1
+    private void playMetronomeSound(boolean isHighSound) {
+        if (isHighSound) {
+            player = MediaPlayer.create(this, R.raw.tap_high);
+        } else {
+            player = MediaPlayer.create(this, R.raw.tap_low);
+        }
         player.start();
     }
 
