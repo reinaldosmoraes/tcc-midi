@@ -55,6 +55,7 @@ import com.example.nativemidi.utils.SharedPreferecesManager;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Application MainActivity handles UI and Midi device hotplug event from
@@ -96,6 +97,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     // Set pattern dialog
     TextView mHandPatternDialogText;
+
+    // Treshold
+    int accentTreshold = 0;
 
     // Metronome
     long startTime = 0;
@@ -144,7 +148,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     private boolean verifyTap(Tap correctTap, Tap currentTap) {
-        if(correctTap.getHand() == currentTap.getHand() && isInTime(currentTap.getInterval()) && isCorretAccent(correctTap, currentTap)){
+        if(isCorretHand(correctTap, currentTap) && isInTime(correctTap, currentTap) && isCorretAccent(correctTap, currentTap)) {
 //            icCorrectImageView.setVisibility(View.VISIBLE);
 //            icIncorrectImageView.setVisibility(View.INVISIBLE);
             return true;
@@ -155,26 +159,27 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
     }
 
-    private boolean isTapValid() {
-        return verifyTap(pattern.get((taps.size()-1) % pattern.size()), taps.get(taps.size()-1));
+    private boolean isCorretHand(Tap correctTap, Tap currentTap) {
+        return correctTap.getHand() == currentTap.getHand();
     }
 
     private boolean isCorretAccent(Tap correctTap, Tap currentTap) {
-        if(currentTap.getIntensity() >= SharedPreferecesManager.Companion.getAccentTreshold(getApplicationContext())) {
+        if(currentTap.getIntensity() >= accentTreshold) {
             currentTap.setAccented(true);
         }
-
         return correctTap.isAccented() == currentTap.isAccented();
     }
 
-    private boolean isInTime(long currentInterval) {
-        if (currentInterval == 0) { //first tap
-            return true;
-        } else if (currentInterval > bpmToMs(bpm) - 200 && currentInterval < bpmToMs(bpm) + 200) { //in time
-            return true;
-        } else { //out of time
-            return false;
-        }
+    private boolean isInTime(Tap correctTap, Tap currentTap) {
+        long interval = getDateDiff(correctTap.getTapTime(), currentTap.getTapTime(), TimeUnit.MILLISECONDS);
+        return interval < 800;
+
+        // Outro método
+//        long tolerance = 1000;
+//        Date lowTolerance = new Date(correctTap.getTapTime().getTime() - tolerance);
+//        Date highTolerance = new Date(correctTap.getTapTime().getTime() + tolerance);
+//
+//        return currentTap.getTapTime().getTime() >= lowTolerance.getTime() && currentTap.getTapTime().getTime() <= highTolerance.getTime();
     }
 
     private long bpmToMs (int bpm) {
@@ -345,12 +350,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     timerHandler.removeCallbacks(timerRunnable);
                     mClearTapsButton.setText("Iniciar");
                     metronomeCurrentTempoTextView.setVisibility(View.INVISIBLE);
-                    currentTempo = 1;
+                    currentTempo = 0;
                 } else {
                     startTime = System.currentTimeMillis();
                     timerHandler.postDelayed(timerRunnable, 0);
                     mClearTapsButton.setText("Pausar");
                     metronomeCurrentTempoTextView.setVisibility(View.VISIBLE);
+                    calculateCorrectExecution();
                 }
             }
         });
@@ -387,6 +393,20 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         
     }
 
+    private void calculateCorrectExecution() {
+        for (int i = 0; i < pattern.size(); i++) {
+            Tap tap = pattern.get(i);
+
+            if (i == 0) {
+                tap.setInterval((long) 0);
+                tap.setTapTime(new Date(startTime + (bpmToMs(bpm) * 4)));
+            } else {
+                tap.setInterval(bpmToMs(bpm));
+                tap.setTapTime(new Date(pattern.get(i - 1).getTapTime().getTime() + bpmToMs(bpm)));
+            }
+        }
+    }
+
     private void playMetronomeSound(boolean isHighSound) {
         if (isHighSound) {
             player = MediaPlayer.create(this, R.raw.tap_high);
@@ -400,7 +420,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     protected void onPause() {
         super.onPause();
         timerHandler.removeCallbacks(timerRunnable);
-        mClearTapsButton.setText("start");
+        mClearTapsButton.setText("Iniciar");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateAccentTresholdFromSharedPrefences();
     }
 
     /**
@@ -451,10 +477,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 Tap tap = new Tap(hand, (int) message[2], new Date(), null, null);
                 insertTapOnListWithInterval(tap);
 
+                int currentTapPosition = (taps.size() - 1) % 8;
+
                 String feedbackMessage = "Lado: " + hand.toString() +
                         "\nIntensidade: " + message[2] +
                         "\nIntervalo: " + msToBpm(taps.get(taps.size() - 1).getInterval()) + " bpm" +
-                        "\nToque correto: " + isTapValid();
+                        "\nTempo correto: " + isInTime(pattern.get(currentTapPosition), taps.get(currentTapPosition)) +
+                        "\nToque correto: " + verifyTap(pattern.get(currentTapPosition), taps.get(currentTapPosition));
 
                 mOutputMessage.setText(feedbackMessage);
 
@@ -576,5 +605,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private void configureToolbar() {
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
+    }
+
+    private long getDateDiff(Date date1, Date date2, TimeUnit timeUnit) {
+        long diffInMillies = date2.getTime() - date1.getTime();
+        return timeUnit.convert(diffInMillies,TimeUnit.MILLISECONDS);
+    }
+
+    private void updateAccentTresholdFromSharedPrefences() {
+        accentTreshold = SharedPreferecesManager.Companion.getAccentTreshold(getApplicationContext());
     }
 }
