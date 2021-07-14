@@ -1,13 +1,13 @@
 {
   "abi": "X86",
-  "abiPlatformVersion": 29,
+  "abiPlatformVersion": 30,
   "buildSettings": {
     "environmentVariables": []
   },
   "cmake": {
-    "cmakeArtifactsBaseFolder": "/Users/reinaldo.moraes/Documents/tcc/tcc-app-android/app/.cxx/cmake/debug/x86",
-    "cmakeServerLogFile": "/Users/reinaldo.moraes/Documents/tcc/tcc-app-android/app/.cxx/cmake/debug/x86/cmake_server_log.txt",
-    "cmakeWrappingBaseFolder": "/Users/reinaldo.moraes/Documents/tcc/tcc-app-android/app/.cxx/cxx/debug/x86",
+    "cmakeArtifactsBaseFolder": "/Users/reinaldosmoraes/Documents/tcc-app-android/app/.cxx/cmake/debug/x86",
+    "cmakeServerLogFile": "/Users/reinaldosmoraes/Documents/tcc-app-android/app/.cxx/cmake/debug/x86/cmake_server_log.txt",
+    "cmakeWrappingBaseFolder": "/Users/reinaldosmoraes/Documents/tcc-app-android/app/.cxx/cxx/debug/x86",
     "effectiveConfiguration": {
       "name": "traditional-android-studio-cmake-environment",
       "description": "Composite reified CMakeSettings configuration",
@@ -15,13 +15,13 @@
       "inheritEnvironments": [
         "ndk"
       ],
-      "buildRoot": "/Users/reinaldo.moraes/Documents/tcc/tcc-app-android/app/.cxx/cmake/debug/x86",
-      "cmakeToolchain": "/Users/reinaldo.moraes/Library/Android/sdk/ndk/21.2.6472646/build/cmake/android.toolchain.cmake",
-      "cmakeExecutable": "/Users/reinaldo.moraes/Library/Android/sdk/cmake/3.10.2.4988404/bin/cmake",
+      "buildRoot": "/Users/reinaldosmoraes/Documents/tcc-app-android/app/.cxx/cmake/debug/x86",
+      "cmakeToolchain": "/Users/reinaldosmoraes/Library/Android/sdk/ndk/22.1.7171670/build/cmake/android.toolchain.cmake",
+      "cmakeExecutable": "/Users/reinaldosmoraes/Library/Android/sdk/cmake/3.10.2.4988404/bin/cmake",
       "variables": [
         {
           "name": "CMAKE_FIND_ROOT_PATH",
-          "value": "/Users/reinaldo.moraes/Documents/tcc/tcc-app-android/app/.cxx/cmake/debug/prefab/x86/prefab"
+          "value": "/Users/reinaldosmoraes/Documents/tcc-app-android/app/.cxx/cmake/debug/prefab/x86/prefab"
         },
         {
           "name": "CMAKE_BUILD_TYPE",
@@ -29,7 +29,7 @@
         },
         {
           "name": "CMAKE_TOOLCHAIN_FILE",
-          "value": "/Users/reinaldo.moraes/Library/Android/sdk/ndk/21.2.6472646/build/cmake/android.toolchain.cmake"
+          "value": "/Users/reinaldosmoraes/Library/Android/sdk/ndk/22.1.7171670/build/cmake/android.toolchain.cmake"
         },
         {
           "name": "ANDROID_ABI",
@@ -37,7 +37,7 @@
         },
         {
           "name": "ANDROID_NDK",
-          "value": "/Users/reinaldo.moraes/Library/Android/sdk/ndk/21.2.6472646"
+          "value": "/Users/reinaldosmoraes/Library/Android/sdk/ndk/22.1.7171670"
         },
         {
           "name": "CMAKE_ANDROID_ARCH_ABI",
@@ -45,7 +45,7 @@
         },
         {
           "name": "CMAKE_ANDROID_NDK",
-          "value": "/Users/reinaldo.moraes/Library/Android/sdk/ndk/21.2.6472646"
+          "value": "/Users/reinaldosmoraes/Library/Android/sdk/ndk/22.1.7171670"
         },
         {
           "name": "CMAKE_EXPORT_COMPILE_COMMANDS",
@@ -53,11 +53,11 @@
         },
         {
           "name": "CMAKE_LIBRARY_OUTPUT_DIRECTORY",
-          "value": "/Users/reinaldo.moraes/Documents/tcc/tcc-app-android/app/build/intermediates/cmake/debug/obj/x86"
+          "value": "/Users/reinaldosmoraes/Documents/tcc-app-android/app/build/intermediates/cmake/debug/obj/x86"
         },
         {
           "name": "CMAKE_MAKE_PROGRAM",
-          "value": "/Users/reinaldo.moraes/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja"
+          "value": "/Users/reinaldosmoraes/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja"
         },
         {
           "name": "CMAKE_SYSTEM_NAME",
@@ -65,7 +65,7 @@
         },
         {
           "name": "CMAKE_SYSTEM_VERSION",
-          "value": "29"
+          "value": "30"
         },
         {
           "name": "ANDROID_PLATFORM",
@@ -78,14 +78,14 @@
       ]
     }
   },
-  "cxxBuildFolder": "/Users/reinaldo.moraes/Documents/tcc/tcc-app-android/app/.cxx/cmake/debug/x86",
+  "cxxBuildFolder": "/Users/reinaldosmoraes/Documents/tcc-app-android/app/.cxx/cmake/debug/x86",
   "info": {
     "abi": "X86",
     "bitness": 32,
     "deprecated": false,
     "default": true
   },
-  "originalCxxBuildFolder": "/Users/reinaldo.moraes/Documents/tcc/tcc-app-android/app/.cxx/cmake/debug/x86",
+  "originalCxxBuildFolder": "/Users/reinaldosmoraes/Documents/tcc-app-android/app/.cxx/cmake/debug/x86",
   "variant": {
     "buildSystemArgumentList": [
       "-DANDROID_PLATFORM\u003dandroid-29",
@@ -100,24 +100,24 @@
     "module": {
       "buildSystem": "CMAKE",
       "cmake": {
-        "cmakeExe": "/Users/reinaldo.moraes/Library/Android/sdk/cmake/3.10.2.4988404/bin/cmake",
+        "cmakeExe": "/Users/reinaldosmoraes/Library/Android/sdk/cmake/3.10.2.4988404/bin/cmake",
         "minimumCmakeVersion": "3.10.2",
-        "ninjaExe": "/Users/reinaldo.moraes/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja"
+        "ninjaExe": "/Users/reinaldosmoraes/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja"
       },
-      "cmakeToolchainFile": "/Users/reinaldo.moraes/Library/Android/sdk/ndk/21.2.6472646/build/cmake/android.toolchain.cmake",
-      "cxxFolder": "/Users/reinaldo.moraes/Documents/tcc/tcc-app-android/app/.cxx",
+      "cmakeToolchainFile": "/Users/reinaldosmoraes/Library/Android/sdk/ndk/22.1.7171670/build/cmake/android.toolchain.cmake",
+      "cxxFolder": "/Users/reinaldosmoraes/Documents/tcc-app-android/app/.cxx",
       "gradleModulePathName": ":app",
-      "intermediatesFolder": "/Users/reinaldo.moraes/Documents/tcc/tcc-app-android/app/build/intermediates",
-      "makeFile": "/Users/reinaldo.moraes/Documents/tcc/tcc-app-android/app/src/main/cpp/CMakeLists.txt",
-      "moduleBuildFile": "/Users/reinaldo.moraes/Documents/tcc/tcc-app-android/app/build.gradle",
-      "moduleRootFolder": "/Users/reinaldo.moraes/Documents/tcc/tcc-app-android/app",
+      "intermediatesFolder": "/Users/reinaldosmoraes/Documents/tcc-app-android/app/build/intermediates",
+      "makeFile": "/Users/reinaldosmoraes/Documents/tcc-app-android/app/src/main/cpp/CMakeLists.txt",
+      "moduleBuildFile": "/Users/reinaldosmoraes/Documents/tcc-app-android/app/build.gradle",
+      "moduleRootFolder": "/Users/reinaldosmoraes/Documents/tcc-app-android/app",
       "ndkDefaultAbiList": [
         "ARMEABI_V7A",
         "ARM64_V8A",
         "X86",
         "X86_64"
       ],
-      "ndkFolder": "/Users/reinaldo.moraes/Library/Android/sdk/ndk/21.2.6472646",
+      "ndkFolder": "/Users/reinaldosmoraes/Library/Android/sdk/ndk/22.1.7171670",
       "ndkMetaAbiList": [
         {
           "abi": "ARMEABI_V7A",
@@ -146,7 +146,7 @@
       ],
       "ndkMetaPlatforms": {
         "min": 16,
-        "max": 29,
+        "max": 30,
         "aliases": {
           "20": 19,
           "25": 24,
@@ -162,7 +162,8 @@
           "O": 26,
           "O-MR1": 27,
           "P": 28,
-          "Q": 29
+          "Q": 29,
+          "R": 30
         }
       },
       "ndkSupportedAbiList": [
@@ -172,31 +173,31 @@
         "X86_64"
       ],
       "ndkDefaultStl": "LIBCXX_STATIC",
-      "ndkVersion": "21.2.6472646",
+      "ndkVersion": "22.1.7171670",
       "project": {
-        "compilerSettingsCacheFolder": "/Users/reinaldo.moraes/Documents/tcc/tcc-app-android/.cxx",
-        "cxxFolder": "/Users/reinaldo.moraes/Documents/tcc/tcc-app-android/.cxx",
+        "compilerSettingsCacheFolder": "/Users/reinaldosmoraes/Documents/tcc-app-android/.cxx",
+        "cxxFolder": "/Users/reinaldosmoraes/Documents/tcc-app-android/.cxx",
         "isBuildOnlyTargetAbiEnabled": true,
         "isCmakeBuildCohabitationEnabled": false,
         "isNativeCompilerSettingsCacheEnabled": false,
-        "rootBuildGradleFolder": "/Users/reinaldo.moraes/Documents/tcc/tcc-app-android",
-        "sdkFolder": "/Users/reinaldo.moraes/Library/Android/sdk",
+        "rootBuildGradleFolder": "/Users/reinaldosmoraes/Documents/tcc-app-android",
+        "sdkFolder": "/Users/reinaldosmoraes/Library/Android/sdk",
         "isPrefabEnabled": false
       },
       "splitsAbiFilterSet": [],
       "stlSharedObjectMap": {
         "LIBCXX_SHARED": {
-          "ARMEABI_V7A": "/Users/reinaldo.moraes/Library/Android/sdk/ndk/21.2.6472646/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/arm-linux-androideabi/libc++_shared.so",
-          "ARM64_V8A": "/Users/reinaldo.moraes/Library/Android/sdk/ndk/21.2.6472646/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/aarch64-linux-android/libc++_shared.so",
-          "X86": "/Users/reinaldo.moraes/Library/Android/sdk/ndk/21.2.6472646/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/i686-linux-android/libc++_shared.so",
-          "X86_64": "/Users/reinaldo.moraes/Library/Android/sdk/ndk/21.2.6472646/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/x86_64-linux-android/libc++_shared.so"
+          "ARMEABI_V7A": "/Users/reinaldosmoraes/Library/Android/sdk/ndk/22.1.7171670/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/arm-linux-androideabi/libc++_shared.so",
+          "ARM64_V8A": "/Users/reinaldosmoraes/Library/Android/sdk/ndk/22.1.7171670/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/aarch64-linux-android/libc++_shared.so",
+          "X86": "/Users/reinaldosmoraes/Library/Android/sdk/ndk/22.1.7171670/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/i686-linux-android/libc++_shared.so",
+          "X86_64": "/Users/reinaldosmoraes/Library/Android/sdk/ndk/22.1.7171670/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/x86_64-linux-android/libc++_shared.so"
         },
         "LIBCXX_STATIC": {},
         "NONE": {},
         "SYSTEM": {}
       }
     },
-    "objFolder": "/Users/reinaldo.moraes/Documents/tcc/tcc-app-android/app/build/intermediates/cmake/debug/obj",
+    "objFolder": "/Users/reinaldosmoraes/Documents/tcc-app-android/app/build/intermediates/cmake/debug/obj",
     "variantName": "debug",
     "validAbiList": [
       "ARMEABI_V7A",
@@ -204,8 +205,8 @@
       "X86",
       "X86_64"
     ],
-    "prefabDirectory": "/Users/reinaldo.moraes/Documents/tcc/tcc-app-android/app/.cxx/cmake/debug/prefab",
+    "prefabDirectory": "/Users/reinaldosmoraes/Documents/tcc-app-android/app/.cxx/cmake/debug/prefab",
     "prefabPackageDirectoryList": []
   },
-  "prefabFolder": "/Users/reinaldo.moraes/Documents/tcc/tcc-app-android/app/.cxx/cmake/debug/prefab/x86"
+  "prefabFolder": "/Users/reinaldosmoraes/Documents/tcc-app-android/app/.cxx/cmake/debug/prefab/x86"
 }

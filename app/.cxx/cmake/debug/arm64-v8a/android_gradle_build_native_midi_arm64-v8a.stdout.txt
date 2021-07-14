@@ -1,4 +1,4 @@
-ninja: Entering directory `/Users/reinaldo.moraes/Documents/tcc/tcc-app-android/app/.cxx/cmake/debug/arm64-v8a'
+ninja: Entering directory `/Users/reinaldosmoraes/Documents/tcc-app-android/app/.cxx/cmake/debug/arm64-v8a'
 [1/3] Building CXX object CMakeFiles/native_midi.dir/MainActivity.cpp.o
 [2/3] Building CXX object CMakeFiles/native_midi.dir/AppMidiManager.cpp.o
-[3/3] Linking CXX shared library /Users/reinaldo.moraes/Documents/tcc/tcc-app-android/app/build/intermediates/cmake/debug/obj/arm64-v8a/libnative_midi.so
+[3/3] Linking CXX shared library /Users/reinaldosmoraes/Documents/tcc-app-android/app/build/intermediates/cmake/debug/obj/arm64-v8a/libnative_midi.so
