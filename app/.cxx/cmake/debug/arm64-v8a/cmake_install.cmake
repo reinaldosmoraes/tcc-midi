@@ -1,4 +1,4 @@
-# Install script for directory: /Users/reinaldo.moraes/Documents/tcc/tcc-app-android/app/src/main/cpp
+# Install script for directory: /Users/reinaldosmoraes/Documents/tcc-app-android/app/src/main/cpp
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/Users/reinaldo.moraes/Documents/tcc/tcc-app-android/app/.cxx/cmake/debug/arm64-v8a/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/Users/reinaldosmoraes/Documents/tcc-app-android/app/.cxx/cmake/debug/arm64-v8a/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
