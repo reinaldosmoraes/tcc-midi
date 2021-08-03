@@ -1,0 +1,21 @@
+{
+  "buildFiles": [
+    "/Users/reinaldosmoraes/Documents/tcc-app-android/app/src/main/cpp/CMakeLists.txt",
+    "/Users/reinaldosmoraes/Library/Android/sdk/ndk/22.1.7171670/build/cmake/android.toolchain.cmake",
+    "/Users/reinaldosmoraes/Library/Android/sdk/ndk/22.1.7171670/build/cmake/platforms.cmake",
+    "/Users/reinaldosmoraes/Library/Android/sdk/ndk/22.1.7171670/build/cmake/compiler_id.cmake"
+  ],
+  "cleanCommands": [
+    "/Users/reinaldosmoraes/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/reinaldosmoraes/Documents/tcc-app-android/app/.cxx/cmake/debug/arm64-v8a\" clean"
+  ],
+  "buildTargetsCommand": "/Users/reinaldosmoraes/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja  -C \"/Users/reinaldosmoraes/Documents/tcc-app-android/app/.cxx/cmake/debug/arm64-v8a\" {LIST_OF_TARGETS_TO_BUILD}",
+  "libraries": {
+    "native_midi-Debug-arm64-v8a": {
+      "artifactName": "native_midi",
+      "buildCommand": "/Users/reinaldosmoraes/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/reinaldosmoraes/Documents/tcc-app-android/app/.cxx/cmake/debug/arm64-v8a\" native_midi",
+      "abi": "arm64-v8a",
+      "output": "/Users/reinaldosmoraes/Documents/tcc-app-android/app/build/intermediates/cmake/debug/obj/arm64-v8a/libnative_midi.so",
+      "runtimeFiles": []
+    }
+  }
+}

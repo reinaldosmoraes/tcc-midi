@@ -1,0 +1,48 @@
+{
+  "stringTable": {
+    "0": "/Users/reinaldo.moraes/Documents/tcc/tcc-app-android/app/.cxx/cmake/release/x86",
+    "1": "--target=i686-none-linux-android29 --gcc-toolchain=/Users/reinaldo.moraes/Library/Android/sdk/ndk/21.2.6472646/toolchains/llvm/prebuilt/darwin-x86_64 --sysroot=/Users/reinaldo.moraes/Library/Android/sdk/ndk/21.2.6472646/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -Dnative_midi_EXPORTS -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security -std=c++11 -Wall -Wextra -Werror -O0 -O2 -DNDEBUG -fPIC"
+  },
+  "buildFiles": [
+    "/Users/reinaldo.moraes/Documents/tcc/tcc-app-android/app/src/main/cpp/CMakeLists.txt",
+    "/Users/reinaldo.moraes/Library/Android/sdk/ndk/21.2.6472646/build/cmake/android.toolchain.cmake",
+    "/Users/reinaldo.moraes/Library/Android/sdk/ndk/21.2.6472646/build/cmake/platforms.cmake"
+  ],
+  "cleanCommands": [
+    "/Users/reinaldo.moraes/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/reinaldo.moraes/Documents/tcc/tcc-app-android/app/.cxx/cmake/release/x86\" clean"
+  ],
+  "buildTargetsCommand": "/Users/reinaldo.moraes/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja  -C \"/Users/reinaldo.moraes/Documents/tcc/tcc-app-android/app/.cxx/cmake/release/x86\" {LIST_OF_TARGETS_TO_BUILD}",
+  "libraries": {
+    "native_midi-Release-x86": {
+      "buildCommand": "/Users/reinaldo.moraes/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/reinaldo.moraes/Documents/tcc/tcc-app-android/app/.cxx/cmake/release/x86\" native_midi",
+      "buildType": "release",
+      "toolchain": "1491230664",
+      "abi": "x86",
+      "artifactName": "native_midi",
+      "files": [
+        {
+          "src": "/Users/reinaldo.moraes/Documents/tcc/tcc-app-android/app/src/main/cpp/AppMidiManager.cpp",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/reinaldo.moraes/Documents/tcc/tcc-app-android/app/src/main/cpp/MainActivity.cpp",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        }
+      ],
+      "headers": [],
+      "output": "/Users/reinaldo.moraes/Documents/tcc/tcc-app-android/app/build/intermediates/cmake/release/obj/x86/libnative_midi.so",
+      "runtimeFiles": []
+    }
+  },
+  "toolchains": {
+    "1491230664": {
+      "cppCompilerExecutable": "/Users/reinaldo.moraes/Library/Android/sdk/ndk/21.2.6472646/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang++"
+    }
+  },
+  "cFileExtensions": [],
+  "cppFileExtensions": [
+    "cpp"
+  ]
+}
