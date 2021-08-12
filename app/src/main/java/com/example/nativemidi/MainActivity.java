@@ -283,7 +283,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         accentedLeftHandButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mHandPatternDialogText.setText(mHandPatternDialogText.getText() + "L ");
+                mHandPatternDialogText.setText(mHandPatternDialogText.getText() + "L' ");
                 newPattern.add(new Tap(Hand.LEFT, null, null, null, true));
 
                 if(checkIfInputIsFinished(newPattern)) {
@@ -310,13 +310,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         for (Tap tap : taps) {
 
             if (tap.getHand() == Hand.RIGHT && tap.isAccented()) {
-                pattern += "R'      ";
+                pattern += "R'       ";
             } else if (tap.getHand() == Hand.RIGHT && !tap.isAccented()) {
-                pattern += "R      ";
+                pattern += "R       ";
             } else if (tap.getHand() == Hand.LEFT && tap.isAccented()) {
-                pattern += "L'      ";
+                pattern += "L'       ";
             } else {
-                pattern += "L      ";
+                pattern += "L       ";
             }
         }
         return pattern;
